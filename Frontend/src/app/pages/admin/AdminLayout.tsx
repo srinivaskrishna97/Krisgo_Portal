@@ -29,7 +29,7 @@ export function AdminLayout() {
       <div>
         <h1 className="text-3xl font-bold">Administration</h1>
         <p className="text-muted-foreground mt-1">
-          Manage your enterprise portal settings and configuration
+          Manage your Krisgo Solutions Portal settings and configuration
         </p>
       </div>
 

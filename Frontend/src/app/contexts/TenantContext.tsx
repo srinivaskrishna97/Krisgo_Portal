@@ -20,6 +20,15 @@ const TenantContext = createContext<TenantContextType | undefined>(undefined);
 
 const mockTenants: Tenant[] = [
   {
+    id: 'tenant-krisgo',
+    name: 'Krisgo Solutions',
+    logo: '💼',
+    description: 'Krisgo Tech Solutions Inc.',
+    domain: 'krisgosolutions.com',
+    plan: 'enterprise',
+    status: 'active',
+  },
+  {
     id: 'tenant-1',
     name: 'Acme Corporation',
     logo: '🏢',

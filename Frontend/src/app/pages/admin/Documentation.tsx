@@ -9,7 +9,7 @@ const docCategories = [
     title: 'Getting Started',
     icon: BookOpen,
     docs: [
-      { title: 'Portal Overview', description: 'Introduction to the Enterprise Portal' },
+      { title: 'Portal Overview', description: 'Introduction to the Krisgo Solutions Portal' },
       { title: 'Quick Start Guide', description: 'Get up and running in 5 minutes' },
       { title: 'User Roles & Permissions', description: 'Understanding access control' },
     ],
@@ -42,7 +42,7 @@ export function Documentation() {
       <Card>
         <CardHeader>
           <CardTitle>Help & Documentation</CardTitle>
-          <CardDescription>Find answers and learn how to use the Enterprise Portal</CardDescription>
+          <CardDescription>Find answers and learn how to use the Krisgo Solutions Portal</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Search */}

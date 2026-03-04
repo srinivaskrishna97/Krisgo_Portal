@@ -38,9 +38,9 @@ export function TopNavigation() {
         <div className="flex items-center gap-6">
           <Link to="/" className="flex items-center gap-2">
             <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold">EP</span>
+              <span className="text-white font-bold">KS</span>
             </div>
-            <span className="font-semibold text-lg">Enterprise Portal</span>
+            <span className="font-semibold text-lg">Krisgo Solutions Portal</span>
           </Link>
 
           {/* Tenant Switcher */}
