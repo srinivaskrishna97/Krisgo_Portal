@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
-import { Bell, Search, ChevronDown, LogOut, User, Settings } from 'lucide-react';
+import { Bell, Search, ChevronDown, LogOut, User, Settings, Menu } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTenant } from '../../contexts/TenantContext';
 import { useNotifications } from '../../contexts/NotificationContext';
@@ -17,11 +17,17 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Badge } from '../ui/badge';
 import { Input } from '../ui/input';
 
-export function TopNavigation() {
+interface TopNavigationProps {
+  onMobileMenuToggle?: () => void;
+  mobileMenuOpen?: boolean;
+}
+
+export function TopNavigation({ onMobileMenuToggle }: TopNavigationProps) {
   const { user, logout } = useAuth();
   const { tenants, currentTenant, switchTenant } = useTenant();
   const { unreadCount } = useNotifications();
   const [searchQuery, setSearchQuery] = useState('');
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
 
   if (!user || !currentTenant) return null;
 
@@ -33,22 +39,32 @@ export function TopNavigation() {
 
   return (
     <header className="border-b bg-white sticky top-0 z-50">
-      <div className="flex items-center justify-between h-16 px-6">
-        {/* Logo and Portal Name */}
-        <div className="flex items-center gap-6">
+      <div className="flex items-center justify-between h-16 px-4 md:px-6">
+        {/* Left Section: Hamburger (mobile) + Logo */}
+        <div className="flex items-center gap-2 md:gap-6">
+          {/* Hamburger Menu - Mobile Only */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="lg:hidden"
+            onClick={onMobileMenuToggle}
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
+
           <Link to="/" className="flex items-center gap-2">
             <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold">KS</span>
+              <span className="text-white font-bold text-sm">KS</span>
             </div>
-            <span className="font-semibold text-lg">Krisgo Solutions Portal</span>
+            <span className="font-semibold text-base md:text-lg hidden sm:inline">Krisgo Solutions Portal</span>
           </Link>
 
-          {/* Tenant Switcher */}
+          {/* Tenant Switcher - Hidden on small mobile */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="gap-2">
+              <Button variant="outline" className="gap-2 hidden md:flex">
                 <span className="text-lg">{currentTenant.logo}</span>
-                <span className="max-w-[150px] truncate">{currentTenant.name}</span>
+                <span className="max-w-[100px] lg:max-w-[150px] truncate">{currentTenant.name}</span>
                 <ChevronDown className="h-4 w-4 opacity-50" />
               </Button>
             </DropdownMenuTrigger>
@@ -79,10 +95,10 @@ export function TopNavigation() {
           </DropdownMenu>
         </div>
 
-        {/* Search, Notifications, Profile */}
-        <div className="flex items-center gap-4">
-          {/* Global Search */}
-          <div className="relative w-80">
+        {/* Right Section: Search, Notifications, Profile */}
+        <div className="flex items-center gap-2 md:gap-4">
+          {/* Desktop Search */}
+          <div className="relative hidden md:block md:w-64 lg:w-80">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
@@ -92,6 +108,16 @@ export function TopNavigation() {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
+
+          {/* Mobile Search Toggle */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+            onClick={() => setShowMobileSearch(!showMobileSearch)}
+          >
+            <Search className="h-5 w-5" />
+          </Button>
 
           {/* Notifications */}
           <Link to="/notifications">
@@ -111,16 +137,16 @@ export function TopNavigation() {
           {/* Profile Menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="gap-2 pl-2 pr-3">
+              <Button variant="ghost" className="gap-2 pl-2 pr-2 md:pr-3">
                 <Avatar className="h-8 w-8">
                   <AvatarImage src={user.avatar} alt={user.name} />
                   <AvatarFallback>{userInitials}</AvatarFallback>
                 </Avatar>
-                <div className="text-left hidden md:block">
+                <div className="text-left hidden lg:block">
                   <div className="text-sm font-medium">{user.name}</div>
                   <div className="text-xs text-muted-foreground capitalize">{user.role}</div>
                 </div>
-                <ChevronDown className="h-4 w-4 opacity-50" />
+                <ChevronDown className="h-4 w-4 opacity-50 hidden md:block" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
@@ -147,6 +173,23 @@ export function TopNavigation() {
           </DropdownMenu>
         </div>
       </div>
+
+      {/* Mobile Search Bar - Expandable */}
+      {showMobileSearch && (
+        <div className="md:hidden border-t p-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="Search apps, records..."
+              className="pl-9"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              autoFocus
+            />
+          </div>
+        </div>
+      )}
     </header>
   );
 }

@@ -11,12 +11,12 @@ export function Tenants() {
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <CardTitle>Tenant Management</CardTitle>
               <CardDescription>Manage organizations and their configurations</CardDescription>
             </div>
-            <Button>
+            <Button className="w-full sm:w-auto">
               <Building2 className="mr-2 h-4 w-4" />
               Add Tenant
             </Button>
@@ -28,25 +28,25 @@ export function Tenants() {
         {tenants.map(tenant => (
           <Card key={tenant.id}>
             <CardHeader>
-              <div className="flex items-start justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <div className="text-4xl">{tenant.logo}</div>
-                  <div>
-                    <CardTitle>{tenant.name}</CardTitle>
-                    <CardDescription>{tenant.description}</CardDescription>
+                  <div className="text-4xl flex-shrink-0">{tenant.logo}</div>
+                  <div className="min-w-0">
+                    <CardTitle className="truncate">{tenant.name}</CardTitle>
+                    <CardDescription className="truncate">{tenant.description}</CardDescription>
                   </div>
                 </div>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" className="w-full sm:w-auto">
                   <Settings className="mr-2 h-4 w-4" />
                   Configure
                 </Button>
               </div>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <div className="space-y-1">
                   <p className="text-sm text-muted-foreground">Domain</p>
-                  <p className="font-medium">{tenant.domain}</p>
+                  <p className="font-medium truncate">{tenant.domain}</p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm text-muted-foreground">Plan</p>
@@ -75,9 +75,9 @@ export function Tenants() {
                 </div>
               </div>
 
-              <div className="mt-6 pt-6 border-t grid gap-6 md:grid-cols-3">
+              <div className="mt-6 pt-6 border-t grid gap-4 sm:gap-6 sm:grid-cols-3">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-blue-100 rounded-lg">
+                  <div className="p-2 bg-blue-100 rounded-lg flex-shrink-0">
                     <Users className="h-5 w-5 text-blue-600" />
                   </div>
                   <div>
@@ -86,7 +86,7 @@ export function Tenants() {
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-green-100 rounded-lg">
+                  <div className="p-2 bg-green-100 rounded-lg flex-shrink-0">
                     <Building2 className="h-5 w-5 text-green-600" />
                   </div>
                   <div>
@@ -95,7 +95,7 @@ export function Tenants() {
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-purple-100 rounded-lg">
+                  <div className="p-2 bg-purple-100 rounded-lg flex-shrink-0">
                     <Calendar className="h-5 w-5 text-purple-600" />
                   </div>
                   <div>

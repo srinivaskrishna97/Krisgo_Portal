@@ -51,8 +51,8 @@ export function Profile() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Profile Settings</h1>
-        <p className="text-muted-foreground mt-1">Manage your account settings and preferences</p>
+        <h1 className="text-2xl md:text-3xl font-bold">Profile Settings</h1>
+        <p className="text-muted-foreground mt-1 text-sm md:text-base">Manage your account settings and preferences</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
@@ -68,17 +68,17 @@ export function Profile() {
                 <AvatarFallback className="text-2xl">{userInitials}</AvatarFallback>
               </Avatar>
               <h3 className="font-semibold text-lg mt-4">{user.name}</h3>
-              <p className="text-sm text-muted-foreground">{user.email}</p>
+              <p className="text-sm text-muted-foreground truncate max-w-full px-2">{user.email}</p>
               <Badge className="mt-2 capitalize">{user.role}</Badge>
             </div>
             <Separator />
             <div className="space-y-2 text-sm">
               <div className="flex items-center gap-2 text-muted-foreground">
-                <Building2 className="h-4 w-4" />
+                <Building2 className="h-4 w-4 flex-shrink-0" />
                 <span>{user.tenantIds.length} organizations</span>
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
-                <Shield className="h-4 w-4" />
+                <Shield className="h-4 w-4 flex-shrink-0" />
                 <span>Account verified</span>
               </div>
             </div>
@@ -89,11 +89,13 @@ export function Profile() {
         <Card className="lg:col-span-2">
           <Tabs defaultValue="general">
             <CardHeader>
-              <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="general">General</TabsTrigger>
-                <TabsTrigger value="security">Security</TabsTrigger>
-                <TabsTrigger value="preferences">Preferences</TabsTrigger>
-              </TabsList>
+              <div className="overflow-x-auto -mx-6 px-6 md:mx-0 md:px-0">
+                <TabsList className="inline-grid w-auto min-w-full md:w-full grid-cols-3">
+                  <TabsTrigger value="general" className="text-xs sm:text-sm">General</TabsTrigger>
+                  <TabsTrigger value="security" className="text-xs sm:text-sm">Security</TabsTrigger>
+                  <TabsTrigger value="preferences" className="text-xs sm:text-sm">Preferences</TabsTrigger>
+                </TabsList>
+              </div>
             </CardHeader>
             <CardContent>
               <TabsContent value="general" className="space-y-4">
@@ -115,7 +117,7 @@ export function Profile() {
                   <Label htmlFor="phone">Phone Number</Label>
                   <Input id="phone" type="tel" placeholder="+1 (555) 000-0000" />
                 </div>
-                <Button>Save Changes</Button>
+                <Button className="w-full sm:w-auto">Save Changes</Button>
               </TabsContent>
 
               <TabsContent value="security" className="space-y-4">
@@ -127,7 +129,7 @@ export function Profile() {
                   <p className="text-sm text-muted-foreground mb-3">
                     Update your password or manage authentication providers
                   </p>
-                  <Button variant="outline">Change Password</Button>
+                  <Button variant="outline" className="w-full sm:w-auto">Change Password</Button>
                 </div>
                 <Separator />
                 <div>
@@ -136,29 +138,29 @@ export function Profile() {
                     Linked Accounts
                   </h3>
                   <div className="space-y-2">
-                    <div className="flex items-center justify-between p-3 border rounded-lg">
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-white border rounded flex items-center justify-center">
+                    <div className="flex items-center justify-between p-3 border rounded-lg gap-2">
+                      <div className="flex items-center gap-2 min-w-0 flex-1">
+                        <div className="w-8 h-8 bg-white border rounded flex items-center justify-center flex-shrink-0">
                           G
                         </div>
-                        <div>
+                        <div className="min-w-0 flex-1">
                           <p className="font-medium text-sm">Google</p>
-                          <p className="text-xs text-muted-foreground">john.doe@gmail.com</p>
+                          <p className="text-xs text-muted-foreground truncate">john.doe@gmail.com</p>
                         </div>
                       </div>
-                      <Badge variant="secondary">Connected</Badge>
+                      <Badge variant="secondary" className="flex-shrink-0">Connected</Badge>
                     </div>
-                    <div className="flex items-center justify-between p-3 border rounded-lg">
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-white border rounded flex items-center justify-center">
+                    <div className="flex items-center justify-between p-3 border rounded-lg gap-2">
+                      <div className="flex items-center gap-2 min-w-0 flex-1">
+                        <div className="w-8 h-8 bg-white border rounded flex items-center justify-center flex-shrink-0">
                           M
                         </div>
-                        <div>
+                        <div className="min-w-0 flex-1">
                           <p className="font-medium text-sm">Microsoft</p>
                           <p className="text-xs text-muted-foreground">Not connected</p>
                         </div>
                       </div>
-                      <Button variant="outline" size="sm">Connect</Button>
+                      <Button variant="outline" size="sm" className="flex-shrink-0">Connect</Button>
                     </div>
                   </div>
                 </div>
@@ -170,17 +172,17 @@ export function Profile() {
                   </h3>
                   <div className="space-y-2">
                     {activeSessions.map(session => (
-                      <div key={session.id} className="flex items-center justify-between p-3 border rounded-lg">
-                        <div>
+                      <div key={session.id} className="flex items-center justify-between p-3 border rounded-lg gap-2">
+                        <div className="min-w-0 flex-1">
                           <p className="font-medium text-sm">{session.device}</p>
                           <p className="text-xs text-muted-foreground">
                             {session.location} · {session.lastActive}
                           </p>
                         </div>
                         {session.current ? (
-                          <Badge variant="secondary">Current</Badge>
+                          <Badge variant="secondary" className="flex-shrink-0">Current</Badge>
                         ) : (
-                          <Button variant="ghost" size="sm">Revoke</Button>
+                          <Button variant="ghost" size="sm" className="flex-shrink-0">Revoke</Button>
                         )}
                       </div>
                     ))}
@@ -223,7 +225,7 @@ export function Profile() {
                     </SelectContent>
                   </Select>
                 </div>
-                <Button>Save Preferences</Button>
+                <Button className="w-full sm:w-auto">Save Preferences</Button>
               </TabsContent>
             </CardContent>
           </Tabs>

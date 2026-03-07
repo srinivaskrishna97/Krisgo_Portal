@@ -56,10 +56,10 @@ export function Login() {
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
           <div className="mx-auto w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mb-4">
-            <span className="text-white text-2xl font-bold">KS</span>
+            <span className="text-white text-2xl font-bold">EP</span>
           </div>
           <CardTitle className="text-2xl">Welcome Back</CardTitle>
-          <CardDescription>Sign in to your Krisgo Solutions account</CardDescription>
+          <CardDescription>Sign in to your Enterprise Portal account</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* SSO Buttons */}

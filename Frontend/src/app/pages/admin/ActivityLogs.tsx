@@ -104,19 +104,19 @@ export function ActivityLogs() {
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <CardTitle>Activity & Audit Logs</CardTitle>
               <CardDescription>Track user and system activity across the portal</CardDescription>
             </div>
-            <Button variant="outline">
+            <Button variant="outline" className="w-full sm:w-auto">
               <Download className="mr-2 h-4 w-4" />
               Export Logs
             </Button>
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
@@ -127,7 +127,7 @@ export function ActivityLogs() {
               />
             </div>
             <Select value={typeFilter} onValueChange={setTypeFilter}>
-              <SelectTrigger className="w-48">
+              <SelectTrigger className="w-full sm:w-48">
                 <Filter className="mr-2 h-4 w-4" />
                 <SelectValue />
               </SelectTrigger>
@@ -142,39 +142,69 @@ export function ActivityLogs() {
             </Select>
           </div>
 
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Timestamp</TableHead>
-                <TableHead>User</TableHead>
-                <TableHead>Action</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead>Details</TableHead>
-                <TableHead>IP Address</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredLogs.map(log => (
-                <TableRow key={log.id}>
-                  <TableCell className="text-sm font-mono">{log.timestamp}</TableCell>
-                  <TableCell className="text-sm">{log.user}</TableCell>
-                  <TableCell className="font-medium">{log.action}</TableCell>
-                  <TableCell>
+          {/* Desktop Table View */}
+          <div className="hidden md:block overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Timestamp</TableHead>
+                  <TableHead>User</TableHead>
+                  <TableHead>Action</TableHead>
+                  <TableHead>Type</TableHead>
+                  <TableHead>Details</TableHead>
+                  <TableHead>IP Address</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredLogs.map(log => (
+                  <TableRow key={log.id}>
+                    <TableCell className="text-sm font-mono">{log.timestamp}</TableCell>
+                    <TableCell className="text-sm">{log.user}</TableCell>
+                    <TableCell className="font-medium">{log.action}</TableCell>
+                    <TableCell>
+                      <Badge
+                        variant="secondary"
+                        className={actionTypes[log.type as keyof typeof actionTypes]}
+                      >
+                        {log.type}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-sm text-muted-foreground max-w-xs truncate">
+                      {log.details}
+                    </TableCell>
+                    <TableCell className="text-sm font-mono">{log.ip}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+
+          {/* Mobile Card View */}
+          <div className="md:hidden space-y-4">
+            {filteredLogs.map(log => (
+              <Card key={log.id}>
+                <CardContent className="p-4 space-y-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium">{log.action}</p>
+                      <p className="text-sm text-muted-foreground">{log.user}</p>
+                    </div>
                     <Badge
                       variant="secondary"
                       className={actionTypes[log.type as keyof typeof actionTypes]}
                     >
                       {log.type}
                     </Badge>
-                  </TableCell>
-                  <TableCell className="text-sm text-muted-foreground max-w-xs truncate">
-                    {log.details}
-                  </TableCell>
-                  <TableCell className="text-sm font-mono">{log.ip}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+                  </div>
+                  <p className="text-sm text-muted-foreground">{log.details}</p>
+                  <div className="flex items-center justify-between text-xs text-muted-foreground pt-2 border-t">
+                    <span className="font-mono">{log.timestamp}</span>
+                    <span className="font-mono">{log.ip}</span>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </CardContent>
       </Card>
     </div>

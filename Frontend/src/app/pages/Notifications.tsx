@@ -53,15 +53,15 @@ export function Notifications() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold">Notifications</h1>
-          <p className="text-muted-foreground mt-1">
+          <h1 className="text-2xl md:text-3xl font-bold">Notifications</h1>
+          <p className="text-muted-foreground mt-1 text-sm md:text-base">
             {unreadCount} unread notification{unreadCount !== 1 ? 's' : ''}
           </p>
         </div>
         {unreadCount > 0 && (
-          <Button onClick={markAllAsRead} variant="outline">
+          <Button onClick={markAllAsRead} variant="outline" className="w-full sm:w-auto">
             <CheckCheck className="mr-2 h-4 w-4" />
             Mark All as Read
           </Button>
@@ -99,15 +99,15 @@ export function Notifications() {
                 }`}
               >
                 <CardContent className="p-4">
-                  <div className="flex gap-4">
+                  <div className="flex gap-3 sm:gap-4">
                     <div className="flex-shrink-0 mt-1">
                       {getNotificationIcon(notification.type)}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between gap-4">
+                      <div className="flex items-start justify-between gap-2">
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <h3 className="font-semibold">{notification.title}</h3>
+                          <div className="flex items-center gap-2 mb-1 flex-wrap">
+                            <h3 className="font-semibold text-sm sm:text-base">{notification.title}</h3>
                             {!notification.read && (
                               <Badge variant="secondary" className="text-xs">New</Badge>
                             )}
@@ -115,7 +115,7 @@ export function Notifications() {
                           <p className="text-sm text-muted-foreground mb-2">
                             {notification.message}
                           </p>
-                          <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                          <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                             <span className="flex items-center gap-1">
                               <Clock className="h-3 w-3" />
                               {formatDistanceToNow(notification.timestamp, { addSuffix: true })}
@@ -135,6 +135,7 @@ export function Notifications() {
                             variant="ghost"
                             size="sm"
                             onClick={() => markAsRead(notification.id)}
+                            className="h-8 w-8 p-0 flex-shrink-0"
                           >
                             <Check className="h-4 w-4" />
                           </Button>
@@ -142,7 +143,7 @@ export function Notifications() {
                       </div>
                       {notification.link && (
                         <Link to={notification.link}>
-                          <Button variant="outline" size="sm" className="mt-3">
+                          <Button variant="outline" size="sm" className="mt-3 w-full sm:w-auto">
                             View Details
                           </Button>
                         </Link>

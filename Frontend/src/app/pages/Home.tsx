@@ -73,27 +73,27 @@ export function Home() {
     <div className="space-y-8">
       {/* Welcome Section */}
       <div>
-        <h1 className="text-3xl font-bold">Welcome back, {user?.name}!</h1>
-        <p className="text-muted-foreground mt-1">
+        <h1 className="text-2xl md:text-3xl font-bold">Welcome back, {user?.name}!</h1>
+        <p className="text-muted-foreground mt-1 text-sm md:text-base">
           {currentTenant?.name} · <span className="capitalize">{user?.role}</span>
         </p>
       </div>
 
       {/* Alerts */}
       {alerts.length > 0 && (
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2">
           {alerts.map(alert => (
             <Card key={alert.id} className={alert.type === 'warning' ? 'border-yellow-200 bg-yellow-50' : 'border-blue-200 bg-blue-50'}>
               <CardHeader className="pb-3">
                 <CardTitle className="text-base flex items-center gap-2">
-                  <AlertCircle className="h-4 w-4" />
+                  <AlertCircle className="h-4 w-4 flex-shrink-0" />
                   {alert.title}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground mb-3">{alert.description}</p>
                 <Link to={alert.link}>
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline" size="sm" className="w-full sm:w-auto">
                     View Details
                     <ArrowRight className="ml-2 h-3 w-3" />
                   </Button>

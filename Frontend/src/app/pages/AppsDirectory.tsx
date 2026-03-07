@@ -31,9 +31,9 @@ export function AppsDirectory() {
 
     return (
       <Card className="hover:shadow-lg transition-shadow">
-        <CardHeader>
-          <div className="flex items-start justify-between">
-            <div className="text-4xl">{app.icon}</div>
+        <CardHeader className="pb-3 sm:pb-6">
+          <div className="flex items-start justify-between gap-2">
+            <div className="text-3xl sm:text-4xl">{app.icon}</div>
             <div className="flex gap-2">
               <Button
                 variant="ghost"
@@ -42,7 +42,7 @@ export function AppsDirectory() {
                   e.preventDefault();
                   toggleFavorite(app.id);
                 }}
-                className="h-8 w-8"
+                className="h-8 w-8 flex-shrink-0"
               >
                 <Star
                   className={`h-4 w-4 ${
@@ -52,13 +52,13 @@ export function AppsDirectory() {
               </Button>
             </div>
           </div>
-          <CardTitle className="mt-2">{app.name}</CardTitle>
-          <CardDescription className="line-clamp-2">{app.description}</CardDescription>
+          <CardTitle className="mt-2 text-lg sm:text-xl">{app.name}</CardTitle>
+          <CardDescription className="line-clamp-2 text-sm">{app.description}</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-0">
           <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <Badge variant="secondary" className="capitalize">
+            <div className="flex items-center gap-2 flex-wrap">
+              <Badge variant="secondary" className="capitalize text-xs">
                 {app.category}
               </Badge>
               {app.status !== 'active' && (
@@ -78,7 +78,7 @@ export function AppsDirectory() {
                       to={link.path}
                       className="text-xs text-blue-600 hover:underline flex items-center gap-1"
                     >
-                      <ExternalLink className="h-3 w-3" />
+                      <ExternalLink className="h-3 w-3 flex-shrink-0" />
                       {link.name}
                     </Link>
                   ))}
@@ -87,7 +87,7 @@ export function AppsDirectory() {
             )}
 
             <Link to={app.link}>
-              <Button className="w-full mt-2">Launch App</Button>
+              <Button className="w-full mt-2" size="sm">Launch App</Button>
             </Link>
           </div>
         </CardContent>
@@ -96,53 +96,54 @@ export function AppsDirectory() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6 w-full max-w-full overflow-x-hidden">
       <div>
-        <h1 className="text-3xl font-bold">Applications</h1>
-        <p className="text-muted-foreground mt-1">
+        <h1 className="text-2xl sm:text-3xl font-bold">Applications</h1>
+        <p className="text-muted-foreground mt-1 text-sm sm:text-base">
           Browse and launch your enterprise applications
         </p>
       </div>
 
       {/* Search */}
-      <div className="relative max-w-md">
+      <div className="relative w-full sm:max-w-md">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
           placeholder="Search applications..."
-          className="pl-9"
+          className="pl-9 w-full"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
 
       {/* Tabs by Category */}
-      <Tabs defaultValue="all" className="space-y-6">
-        <TabsList>
-          <TabsTrigger value="all">
-            <Grid3x3 className="h-4 w-4 mr-2" />
-            All Apps ({applications.length})
-          </TabsTrigger>
-          <TabsTrigger value="favorites">
-            <Star className="h-4 w-4 mr-2" />
-            Favorites ({favoriteApps.length})
-          </TabsTrigger>
-          {Object.entries(categoryLabels).map(([key, label]) => (
-            <TabsTrigger key={key} value={key}>
-              {label} ({applications.filter(app => app.category === key).length})
+      <Tabs defaultValue="all" className="space-y-4 sm:space-y-6 w-full max-w-full">
+        <div className="overflow-x-auto overflow-y-hidden -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
+          <TabsList className="inline-flex w-auto">
+            <TabsTrigger value="all" className="whitespace-nowrap text-xs sm:text-sm flex-shrink-0">
+              <Grid3x3 className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              All Apps ({applications.length})
             </TabsTrigger>
-          ))}
-        </TabsList>
+            <TabsTrigger value="favorites" className="whitespace-nowrap text-xs sm:text-sm flex-shrink-0">
+              Favorites ({favoriteApps.length})
+            </TabsTrigger>
+            {Object.entries(categoryLabels).map(([key, label]) => (
+              <TabsTrigger key={key} value={key} className="whitespace-nowrap text-xs sm:text-sm flex-shrink-0">
+                {label} ({applications.filter(app => app.category === key).length})
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </div>
 
-        <TabsContent value="all">
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <TabsContent value="all" className="mt-4 sm:mt-6">
+          <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full">
             {filteredApps.map(app => (
               <AppCard key={app.id} app={app} />
             ))}
           </div>
         </TabsContent>
 
-        <TabsContent value="favorites">
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <TabsContent value="favorites" className="mt-4 sm:mt-6">
+          <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full">
             {filteredApps
               .filter(app => favoriteApps.includes(app.id))
               .map(app => (
@@ -150,9 +151,9 @@ export function AppsDirectory() {
               ))}
           </div>
           {favoriteApps.length === 0 && (
-            <div className="text-center py-12">
-              <Star className="h-12 w-12 mx-auto text-gray-300 mb-3" />
-              <p className="text-muted-foreground">
+            <div className="text-center py-8 sm:py-12 px-4">
+              <Star className="h-10 w-10 sm:h-12 sm:w-12 mx-auto text-gray-300 mb-3" />
+              <p className="text-muted-foreground text-sm sm:text-base">
                 No favorite apps yet. Click the star icon on any app to add it to favorites.
               </p>
             </div>
@@ -160,8 +161,8 @@ export function AppsDirectory() {
         </TabsContent>
 
         {Object.entries(categoryLabels).map(([category]) => (
-          <TabsContent key={category} value={category}>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <TabsContent key={category} value={category} className="mt-4 sm:mt-6">
+            <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full">
               {filteredApps
                 .filter(app => app.category === category)
                 .map(app => (
@@ -173,8 +174,8 @@ export function AppsDirectory() {
       </Tabs>
 
       {filteredApps.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-muted-foreground">No applications found matching your search.</p>
+        <div className="text-center py-8 sm:py-12 px-4">
+          <p className="text-muted-foreground text-sm sm:text-base">No applications found matching your search.</p>
         </div>
       )}
     </div>
