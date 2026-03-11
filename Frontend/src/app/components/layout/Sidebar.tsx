@@ -1,8 +1,8 @@
 import { Link, useLocation } from 'react-router';
-import { Home, Grid3x3, Bell, Shield } from 'lucide-react';
+import { Home, Grid3x3, Bell, Shield, X } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { cn } from '../ui/utils';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '../ui/sheet';
+import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '../ui/sheet';
 
 interface NavItem {
   name: string;
@@ -72,14 +72,24 @@ export function Sidebar({ mobileMenuOpen, onMobileMenuClose }: SidebarProps) {
 
       {/* Mobile Sidebar (Sheet) */}
       <Sheet open={mobileMenuOpen} onOpenChange={handleOpenChange}>
-        <SheetContent side="left" className="w-64 p-0 bg-gray-50">
+        {/* [&>button:last-child]:hidden — suppresses the default absolute-positioned Radix close button */}
+        <SheetContent side="left" className="w-64 p-0 bg-gray-50 [&>button:last-child]:hidden">
           <SheetHeader className="sr-only">
             <SheetTitle>Navigation Menu</SheetTitle>
             <SheetDescription>Navigate to different sections of the portal</SheetDescription>
           </SheetHeader>
-          <div className="pt-6">
-            <NavLinks />
+          {/* Header row with our own explicit close button */}
+          <div className="h-14 flex items-center gap-2 px-4 border-b bg-white flex-shrink-0">
+            <div className="h-8 w-8 rounded bg-blue-600 flex items-center justify-center flex-shrink-0">
+              <span className="text-white font-bold text-sm">KS</span>
+            </div>
+            <span className="font-semibold text-sm truncate flex-1 min-w-0">Krisgo Solutions Portal</span>
+            <SheetClose className="flex-shrink-0 rounded-sm opacity-70 hover:opacity-100 transition-opacity focus:outline-none focus:ring-2 focus:ring-ring">
+              <X className="h-4 w-4" />
+              <span className="sr-only">Close</span>
+            </SheetClose>
           </div>
+          <NavLinks />
         </SheetContent>
       </Sheet>
     </>
